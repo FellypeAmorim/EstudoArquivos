@@ -9,27 +9,27 @@ namespace EstudoArquivos
         static void Main(string[] args)
         {
             string path = @"C:\Users\gigim\Desktop\C#\Temp\file1.txt";
-            StreamReader sr = null;
+
 
             try
             {
-                sr = File.OpenText(path);
-                while (!sr.EndOfStream)
+                using (FileStream fs = new FileStream(path, FileMode.Open))
                 {
-                    string line = sr.ReadLine();
-                    Console.WriteLine(line);
+                    using (StreamReader sr = new StreamReader(fs))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            string line = sr.ReadLine();
+                            Console.WriteLine(line);
+                        }
+                    }
                 }
             }
-            catch (IOException e)
+            catch(IOException e)
             {
-                Console.WriteLine("An Error Occurred");
+                Console.WriteLine("An Error Ocurred");
                 Console.WriteLine(e.Message);
             }
-            finally
-            {
-                if (sr != null) sr.Close();
-            }
-
 
         }
     }
