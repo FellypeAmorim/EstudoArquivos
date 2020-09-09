@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http.Headers;
 
 namespace EstudoArquivos
 {
@@ -7,25 +8,29 @@ namespace EstudoArquivos
     {
         static void Main(string[] args)
         {
-            string soucePath = @"C:\Users\gigim\Desktop\C#\Temp\file1.txt";
-            string targetPath = @"C:\Users\gigim\Desktop\C#\Temp\file2.txt";
-            
+            string path = @"C:\Users\gigim\Desktop\C#\Temp\file1.txt";
+            StreamReader sr = null;
+
             try
             {
-                FileInfo fileinfo = new FileInfo(soucePath);
-                fileinfo.CopyTo(targetPath);
-                string[] lines = File.ReadAllLines(soucePath);
-                foreach (string line in lines)
+                sr = File.OpenText(path);
+                while (!sr.EndOfStream)
                 {
+                    string line = sr.ReadLine();
                     Console.WriteLine(line);
                 }
             }
-
             catch (IOException e)
             {
-                Console.WriteLine("An error occurred");
+                Console.WriteLine("An Error Occurred");
                 Console.WriteLine(e.Message);
             }
+            finally
+            {
+                if (sr != null) sr.Close();
+            }
+
+
         }
     }
 }
